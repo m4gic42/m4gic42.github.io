@@ -1,103 +1,105 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { horizontalSeparator } from "./components/horizontal-separator";
+import NavBar from "./components/navbar";
+import { boldColoredText } from "./lib/textFormatter";
+import { constants } from "./lib/constants";
+import Footer from "./components/footer";
+
+function personalImage() {
+  const [asciiImage, setAsciiImage] = useState("");
+
+  useEffect(() => {
+    fetch("/personalImage.txt")
+      .then((response) => response.text())
+      .then((text) => {
+        setAsciiImage(text);
+      })
+      .catch((error) => {
+        console.error("Error fetching the ASCII image:", error);
+        setAsciiImage("Error loading image");
+      });
+  }, []);
+
+  return (
+    <div className="about-me__image">
+      <pre className="ascii-photo">
+        {asciiImage ? (
+          asciiImage
+        ) : (
+          <span className="loading">Loading image...</span>
+        )}
+      </pre>
+    </div>
+  );
+}
+
+function NewsSection() {
+  return (
+    <div className="news-section">
+      <h3>News</h3>
+      <div className="news-list">
+        {constants.news.map((newsItem, index) => (
+          <div key={index} className="news-item">
+            <p>{newsItem}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}
+    >
+      <NavBar />
+      <div className="main-container">
+        <div className="about-me">
+          <div className="welcome">
+            <h2>Welcome!</h2>
+            <p>
+              You stumbled across my fairly unnecessary website. If you are
+              interested in{" "}
+              {boldColoredText("physics and scientific outreach", "--main2")},
+              or you are into{" "}
+              {boldColoredText("sci-fi and fantastic stories", "--main1")}, this
+              might be the perfect place where you will find things you{" "}
+              {boldColoredText("didn't know", "--main2")} you{" "}
+              {boldColoredText("didn't need", "--main1")}.
+            </p>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          {horizontalSeparator()}
+
+          <div className="about-me__top">
+            {personalImage()}
+            <div className="about-me__bio">
+              <h3>Just a bit about me</h3>
+              <p>
+                I am a researcher in theoretical physics, with main interests in
+                quantum information theory, quantum foundations, and quantum
+                gravity. I like to keep my approach as pragmatic and clear as
+                possible, with the ultimate goal of always learning something
+                new. I’m a huge consumer of books, movies, music, and basically
+                anything with an interesting story behind it. My main hobby, by
+                far, is criticizing, but sometimes I also come up with some
+                silly stories to write myself. If you REALLY want to know more
+                details,
+                <a href="/CV.pdf" target="_blank" className="cv-link">
+                  {" "}
+                  here is my updated CV
+                </a>
+                .
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <NewsSection />
+      </div>
+
+      <Footer />
     </div>
   );
 }
