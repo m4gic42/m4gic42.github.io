@@ -389,18 +389,18 @@ body {
 } */
 
 .site-footer {
-    background-color: var(--main2);
+  background-color: var(--main2);
   text-align: center;
   font-size: 0.9rem;
   color: white;
-  position: absolute; /* was absolute */
+  /*position: absolute; /* was absolute */
   bottom: .2rem;          /* was 1rem */
   left: 0;
   padding: 1rem;
   display: flex;
   flex-direction: row;
   width: 100%; 
-    justify-content: center; /* add this to center content horizontally */
+  justify-content: center; /* add this to center content horizontally */
 }
 
 .footer-content a {
